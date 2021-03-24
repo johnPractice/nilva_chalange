@@ -1,5 +1,6 @@
 const Mongoose = require("mongoose");
 const Schema = Mongoose.Schema;
+const { AppError } = require("../helpers/AppError");
 
 const schema = new Schema(
   {
@@ -33,6 +34,12 @@ const schema = new Schema(
   },
   { timestamps: true }
 );
+
+// pre save check
+schema.pre("save", function () {
+  const question = this;
+  if (question.type == "TEST" && question.options.length == 0) throw new AppError("in test question must add option", 400);
+});
 
 schema.methods.toJSON = function () {
   var obj = this.toObject();
