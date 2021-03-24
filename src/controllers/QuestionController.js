@@ -10,6 +10,7 @@ class Questioncontroller extends Controller {
     super(service);
     this.insert = this.insert.bind(this);
     this.getOne = this.getOne.bind(this);
+    this.getAll = this.getAll.bind(this);
   }
   async insert(req, res, next) {
     try {
@@ -25,6 +26,16 @@ class Questioncontroller extends Controller {
     try {
       const { question } = req;
       return res.status(201).json(question).end();
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getAll(req, res, next) {
+    try {
+      const { user } = req;
+      const result = await this.service.getAll(user._id, req.query);
+      return res.status(201).json(result).end();
     } catch (err) {
       next(err);
     }
