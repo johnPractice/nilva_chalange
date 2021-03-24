@@ -10,8 +10,7 @@ const { AppError } = require("../../helpers/AppError");
  */
 const protect = async (req, res, next) => {
   const bearer = req.headers.authorization;
-  if (!bearer || !bearer.startsWith("Bearer ")) throw new AppError("not auth", 401);
-
+  if (!bearer || !bearer.startsWith("Bearer ")) next(new AppError("not auth", 401));
   const token = bearer.split("Bearer ")[1].trim();
   try {
     const payload = await checkToken(token);
