@@ -7,6 +7,11 @@ const schema = new Schema(
       type: String,
       required: [true, "must enter requires thing"],
     },
+    type: {
+      type: String,
+      enum: ["TEST", "LQ"],
+      required: [true, "must enter requires thing"],
+    },
     answerUser: {
       type: String,
     },
