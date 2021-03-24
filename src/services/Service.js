@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-
+const { AppError } = require("../helpers/AppError");
 class Service {
   constructor(model) {
     this.model = model;
+    this.getOne = this.getOne.bind(this);
     this.getAll = this.getAll.bind(this);
     this.insert = this.insert.bind(this);
     this.update = this.update.bind(this);
@@ -26,7 +27,8 @@ class Service {
   }
 
   async getOne(query) {
-    if (query._id) query._id = new mongoose.mongo.ObjectId(query._id);
+    if (!query._id) throw new AppError("id must be enter", 400);
+    query._id = new mongoose.mongo.ObjectId(query._id);
     let item = await this.model.findOne(query);
     return item;
   }

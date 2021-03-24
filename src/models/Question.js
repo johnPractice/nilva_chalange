@@ -23,6 +23,7 @@ const schema = new Schema(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: [true, "must enter requires thing"],
     },
     options: [
       {
