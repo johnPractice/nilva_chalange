@@ -18,6 +18,13 @@ const schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    options: [
+      {
+        option: {
+          type: String,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -31,5 +38,5 @@ schema.methods.toJSON = function () {
   return obj;
 };
 
-const model = Mongoose.model("longAnswerQuestion", schema);
+const model = Mongoose.model("question", schema);
 module.exports = model;
