@@ -1,10 +1,16 @@
 const Mongoose = require("mongoose");
 const Schema = Mongoose.Schema;
+const { AppError } = require("../helpers/AppError");
 
 const schema = new Schema(
   {
     question: {
       type: String,
+      required: [true, "must enter requires thing"],
+    },
+    type: {
+      type: String,
+      enum: ["TEST", "LQ"],
       required: [true, "must enter requires thing"],
     },
     answerUser: {
@@ -17,10 +23,24 @@ const schema = new Schema(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: [true, "must enter requires thing"],
     },
+    options: [
+      {
+        option: {
+          type: String,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
+
+// pre save check
+schema.pre("save", function () {
+  const question = this;
+  if (question.type == "TEST" && question.options.length == 0) throw new AppError("in test question must add option", 400);
+});
 
 schema.methods.toJSON = function () {
   var obj = this.toObject();
@@ -31,5 +51,5 @@ schema.methods.toJSON = function () {
   return obj;
 };
 
-const model = Mongoose.model("longAnswerQuestion", schema);
+const model = Mongoose.model("question", schema);
 module.exports = model;
