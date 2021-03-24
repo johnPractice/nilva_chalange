@@ -1,12 +1,22 @@
 class Controller {
   constructor(service) {
     this.service = service;
+    this.getOne = this.getOne.bind(this);
     this.getAll = this.getAll.bind(this);
     this.insert = this.insert.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
   }
-
+  async getOne(req, res, next) {
+    try {
+      return res
+        .status(200)
+        .json(await this.service.getOne(req.query))
+        .end();
+    } catch (err) {
+      next(err);
+    }
+  }
   async getAll(req, res, next) {
     try {
       return res
