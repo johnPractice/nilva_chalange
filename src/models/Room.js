@@ -9,18 +9,15 @@ const schema = new Schema(
       unique: true,
       trim: true,
     },
-    answerUser: {
-      type: String,
-    },
     questions: [
       {
-        testQuestion: {
+        question: {
           type: Schema.Types.ObjectId,
-          ref: "TestQuestion",
+          ref: "Question",
         },
-        LongAnswerQuestion: {
-          type: Schema.Types.ObjectId,
-          ref: "LongAnswerQuestion",
+        userAnswer: {
+          type: String,
+          default: null,
         },
       },
     ],
@@ -28,14 +25,6 @@ const schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    options: [
-      {
-        option: {
-          type: String,
-          required: [true, "must enter requires thing"],
-        },
-      },
-    ],
   },
   { timestamps: true }
 );
