@@ -7,6 +7,12 @@ const Service = require("./Service");
 class RoomService extends Service {
   constructor(model) {
     super(model);
+    this.update = this.update.bind(this);
+  }
+
+  async update(id, data) {
+    let item = await this.model.findOneAndUpdate({ roomId: id }, data, { new: true }).populate({ path: "questions.question" });
+    return item;
   }
 }
 
