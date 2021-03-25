@@ -2,6 +2,7 @@ const Controller = require("./Controller");
 const RoomService = require("../services/RoomService");
 const Room = require("../models/Room");
 const { AppError } = require("../helpers/AppError");
+const { dirName } = require("../../config");
 
 const roomService = new RoomService(Room);
 
@@ -28,7 +29,7 @@ class Roomcontroller extends Controller {
       const { user } = req;
       if (!roomId) next(new AppError("roomId must enter", 400));
       const result = await this.service.join({ roomId });
-      return res.status(200).json(result).end();
+      return res.sendFile(dirName + "/index.html");
     } catch (e) {
       next(e);
     }
