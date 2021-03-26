@@ -2,9 +2,7 @@ const Controller = require("./Controller");
 const RoomService = require("../services/RoomService");
 const Room = require("../models/Room");
 const { AppError } = require("../helpers/AppError");
-const { dirName } = require("../../config");
-const WebSockets = require("../utils/socket/webSocket");
-
+const sortScore = require("../utils/room/sortScore");
 const roomService = new RoomService(Room);
 
 class Roomcontroller extends Controller {
@@ -12,6 +10,7 @@ class Roomcontroller extends Controller {
     super(service);
     this.insert = this.insert.bind(this);
     this.join = this.join.bind(this);
+    this.score = this.score.bind(this);
   }
   async insert(req, res, next) {
     try {
@@ -34,6 +33,17 @@ class Roomcontroller extends Controller {
       // return res.status(200).json(result).end();
       global.io.sockets.emit("join new room", { roomId });
       return res.status(200).json({ message: "joined this room" }).end();
+    } catch (e) {
+      next(e);
+    }
+  }
+  async score(req, res, next) {
+    try {
+      const { room } = req;
+      const { questions } = room;
+      if (!questions) next(new AppError("no question in room", 400));
+      const result = await sortScore(questions.userAnswer);
+      return res.status(200).json({ score: result }).end();
     } catch (e) {
       next(e);
     }
