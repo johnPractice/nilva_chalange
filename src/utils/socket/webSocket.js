@@ -1,4 +1,6 @@
 const getAllQuestions = require("../room/getQuestions");
+const saveUserAnswer = require("../room/saveUserAnswer");
+
 class WebSocket {
   connection(socket) {
     console.log("new user added");
@@ -17,6 +19,12 @@ class WebSocket {
       socket.in(roomId).on("get new question", ({ index }) => {
         if (!aq[index]) socket.emit(("error", { message: "not have this index of questions" }));
         socket.emit("send question", { index: index, total: qa.length, question: qa[index] });
+      });
+
+      socket.on("end exam", async ({ data, roomId }) => {
+        const saveUserAnswerResult = await saveUserAnswer({ data, roomId });
+        if (!saveUserAnswerResult) socket.emit(("error", { message: "some thimg wrong" }));
+        socket.emit(("save answer", { message: "your answer succesfully" }));
       });
     });
   }
