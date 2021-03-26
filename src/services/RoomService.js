@@ -15,9 +15,11 @@ class RoomService extends Service {
     let item = await this.model.findOneAndUpdate({ roomId: id }, data, { new: true }).populate({ path: "questions.question" });
     return item;
   }
-  async join({ roomId }) {
-    const room = await this.model.findOne({ roomId }).populate({ path: "questions.question" }).select("-questions.userAnswer");
+  async join({ roomId, userId }) {
+    // const room = await this.model.findOne({ roomId }).populate({ path: "questions.question" }).select("-questions.userAnswer");
+    const room = await this.model.findOne({ roomId });
     if (!room) throw new AppError("not found room", 400);
+    
     if (room.questions.length == 0) throw new AppError("no question in this room", 400);
     return room.questions;
   }

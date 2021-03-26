@@ -3,6 +3,7 @@ const RoomService = require("../services/RoomService");
 const Room = require("../models/Room");
 const { AppError } = require("../helpers/AppError");
 const { dirName } = require("../../config");
+const WebSockets = require("../utils/socket/webSocket");
 
 const roomService = new RoomService(Room);
 
@@ -28,8 +29,11 @@ class Roomcontroller extends Controller {
       const { roomId } = req.query;
       const { user } = req;
       if (!roomId) next(new AppError("roomId must enter", 400));
-      const result = await this.service.join({ roomId });
-      return res.sendFile(dirName + "/index.html");
+      const result = await this.service.join({ roomId, userId: user._id });
+      // add question to client
+      // return res.status(200).json(result).end();
+      global.io.sockets.emit("join new room", { roomId });
+      return res.status(200).json({ message: "joined this room" }).end();
     } catch (e) {
       next(e);
     }
