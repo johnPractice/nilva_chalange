@@ -13,17 +13,14 @@ const schema = new Schema(
       {
         question: {
           type: Schema.Types.ObjectId,
-          ref: "Question",
+          ref: "question",
         },
-        userAnswer: {
-          type: String,
-          default: null,
-        },
+        userAnswer: [{ userId: { type: Schema.Types.ObjectId, ref: "user" }, answers: { type: String, default: null } }],
       },
     ],
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
     },
   },
   { timestamps: true }

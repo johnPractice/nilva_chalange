@@ -39,7 +39,7 @@ class Controller {
 
   async update(req, res, next) {
     try {
-      const { id } = req.params;
+      const { id } = req.query;
       const item = await this.service.update(id, req.body);
       return res.status(202).json(item);
     } catch (err) {
