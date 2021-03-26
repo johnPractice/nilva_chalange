@@ -15,7 +15,7 @@ const schema = new Schema(
           type: Schema.Types.ObjectId,
           ref: "question",
         },
-        userAnswer: [{ userId: { type: Schema.Types.ObjectId, ref: "user" }, answers: [{ type: String, default: null }] }],
+        userAnswer: [{ userId: { type: Schema.Types.ObjectId, ref: "user" }, answers: { type: String, default: null } }],
       },
     ],
     createdBy: {
