@@ -29,6 +29,10 @@ define **global** variable to save socket instance and use it when we need some 
 
 create some utils file in utils folder like some **Midelware** and some util function for using in other file.
 
+## Test 🧪
+
+add some test and github action but not configurtion DB then cant pass test 😇
+
 ## Assumptions ❓
 
 It is assumed that some checks are done on the user side like time check for send answer in room and Requests are implemented in the simplest possible way.
