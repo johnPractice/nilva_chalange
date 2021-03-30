@@ -32,6 +32,11 @@ class Roomcontroller extends Controller {
       // add question to client
       // return res.status(200).json(result).end();
       global.io.sockets.emit("join new room", { roomId });
+
+      // can send question with io in this route
+      // const { socketId } = req.body;
+      // if (global.userConnected[socketId]) global.userConnected[socketId].emit("sent question", { result });
+
       return res.status(200).json({ message: "joined this room" }).end();
     } catch (e) {
       next(e);
