@@ -4,6 +4,7 @@ const Room = require("../models/Room");
 const { AppError } = require("../helpers/AppError");
 const sortScore = require("../utils/room/sortScore");
 const roomService = new RoomService(Room);
+const loop = require("../utils/function/loopDelay");
 
 class Roomcontroller extends Controller {
   constructor(service) {
@@ -32,6 +33,19 @@ class Roomcontroller extends Controller {
       // add question to client
       // return res.status(200).json(result).end();
       global.io.sockets.emit("join new room", { roomId });
+
+      // can send question with io in this route
+      // const { socketId } = req.body;
+      // if (global.userConnected[socketId]) {
+      // let i=0;
+      // const senddata = (index) => {
+      //   global.userConnected[socketId].emit("sent question", { question: result[index] });
+      // };
+      // loop(result.lenght, i, 10000, senddata);
+      //
+      //
+      // };
+
       return res.status(200).json({ message: "joined this room" }).end();
     } catch (e) {
       next(e);

@@ -6,6 +6,8 @@ class WebSocket {
     console.log("new user added");
     socket.on("disconnect", () => {
       console.log(socket.id + " left");
+      // remove user in global object
+      if (global.userConnected[socket.id]) delete global.userConnected[socket.id];
     });
     // add new user to room
     socket.on("join room", async ({ roomId, userId }) => {
